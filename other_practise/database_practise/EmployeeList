@@ -1,0 +1,12 @@
+SELECT
+    c.CustomerName,
+    STRING_AGG(e.LastName, ', ') AS employee_list
+FROM (
+    SELECT DISTINCT
+        o.CustomerID,
+        o.EmployeeID
+    FROM Orders o
+) oe
+JOIN Customers c ON oe.CustomerID = c.CustomerID
+JOIN Employees e ON oe.EmployeeID = e.EmployeeID
+GROUP BY c.CustomerName;
