@@ -31,6 +31,9 @@ else:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
+
+from user.models import UserModel
+
 target_metadata = Base.metadata
 
 # other values from the core, defined by the needs of env.py,
