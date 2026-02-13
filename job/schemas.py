@@ -1,12 +1,12 @@
-from datetime import date
+from datetime import datetime
 
 from pydantic import BaseModel, Field
 
 
 class JobBaseSchema(BaseModel):
     job_name: str = Field(..., max_length=100)
-    job_type: str = Field(..., max_length=100)
-    Job_date: date = Field(...)
+    run_type: str = Field(..., max_length=100)
+    run_time: datetime = Field(..., example="2026-02-13 15:30:40")
 
 
 class JobCreateSchema(JobBaseSchema):
@@ -15,8 +15,8 @@ class JobCreateSchema(JobBaseSchema):
 
 class JobUpdateSchema(JobBaseSchema):
     job_name: str | None = None
-    job_type: str | None = None
-    Job_date: date | None = None
+    run_type: str | None = None
+    run_time: datetime | None = None
 
 
 class JobResponseSchema(JobBaseSchema):
