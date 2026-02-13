@@ -21,6 +21,5 @@ class MovieResponseSchema(MovieBaseSchema):
     }
 
 
-class AddFavoriteRequest(BaseModel):
-    user_id: int
+class FavoriteMovieSchema(BaseModel):
     movie_id: int
