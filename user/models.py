@@ -4,6 +4,7 @@ from sqlalchemy import Column, String, Integer, Boolean, DateTime, func, text
 from sqlalchemy.orm import relationship
 
 from core.database import Base
+from movie.models import UserFavoriteMovieModel
 
 
 class UserModel(Base):
@@ -22,7 +23,7 @@ class UserModel(Base):
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
 
     favorite_movies = relationship(
-        "UserFavoriteMovieModel",
+        UserFavoriteMovieModel,
         back_populates="user",
-        cascade="all, delete"
+        cascade="all, delete",
     )
