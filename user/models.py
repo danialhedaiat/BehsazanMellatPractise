@@ -16,7 +16,7 @@ class UserModel(Base):
     phone_number = Column(String(15), nullable=False, unique=True, index=True)
     email = Column(String(100), nullable=False, unique=True, index=True)
 
-    is_verify = Column(Boolean, nullable=False, server_default=text("false"))
+    is_verify = Column(Boolean, nullable=False, server_default=text("0"))
 
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
