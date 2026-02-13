@@ -25,8 +25,13 @@ async def retrive_user_detail(user_id: int, db: Session = Depends(get_db)):
 
 
 @router.post("/", response_model=UserResponseSchema)
-async def create_user(request_user: UserCreateSchema, db: Session = Depends(get_db)):
-    user_obj = UserModel(**request_user.model_dump())
+async def register_user(request_user: UserCreateSchema, db: Session = Depends(get_db)):
+    if db.query(UserModel).filter_by(email=request_user.email).first():
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Email already registered")
+
+    user_obj = UserModel(email=request_user.email, phone_number=request_user.phone_number,
+                         first_name=request_user.first_name, last_name=request_user.last_name)
+    user_obj.set_password(request_user.password)
     db.add(user_obj)
     db.commit()
     db.refresh(user_obj)
@@ -34,9 +39,9 @@ async def create_user(request_user: UserCreateSchema, db: Session = Depends(get_
 
 
 @router.put("/{user_id}", response_model=UserResponseSchema)
-async def update_user(request_user: UserUpdateSchema,user_id: int, db: Session = Depends(get_db)):
-    user  = db.query(UserModel).filter_by(id=user_id).first()
-    if not user :
+async def update_user(request_user: UserUpdateSchema, user_id: int, db: Session = Depends(get_db)):
+    user = db.query(UserModel).filter_by(id=user_id).first()
+    if not user:
         raise HTTPException(status_code=404, detail="User not found")
 
     update_data = request_user.model_dump(exclude_unset=True)
