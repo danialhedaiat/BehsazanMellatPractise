@@ -21,7 +21,7 @@ if config.config_file_name is not None:
 
 load_dotenv(ENV_PATH)
 
-DATABASE_URL = os.getenv("DATABASE_URL")
+DATABASE_URL = os.getenv("ALEMBIC_DATABASE_URL")
 
 if DATABASE_URL:
     config.set_main_option('sqlalchemy.url', DATABASE_URL)
@@ -32,7 +32,8 @@ else:
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
 
-from user.models import UserModel
+from user.models import *
+from movie.models import *
 
 target_metadata = Base.metadata
 
