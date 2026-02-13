@@ -3,6 +3,7 @@ from typing import List
 from fastapi import APIRouter, Depends, Request, HTTPException, status
 from sqlalchemy.orm import Session
 
+from core.auth import create_access_token, get_current_user
 from core.database import get_db
 from user.models import UserModel
 from user.schemas import UserResponseSchema, UserCreateSchema, UserUpdateSchema, UserLoginSchema
@@ -11,7 +12,7 @@ router = APIRouter(tags=["User"], prefix="/users")
 
 
 @router.get("/", response_model=List[UserResponseSchema])
-async def retrive_user_list(db: Session = Depends(get_db)):
+async def retrive_user_list(db: Session = Depends(get_db), current_user: UserModel = Depends(get_current_user)):
     users = db.query(UserModel).all()
     return users
 
