@@ -34,6 +34,7 @@ else:
 
 from user.models import *
 from movie.models import *
+from job.models import *
 
 target_metadata = Base.metadata
 
