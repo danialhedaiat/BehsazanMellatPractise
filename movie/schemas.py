@@ -13,7 +13,7 @@ class MovieUpdateSchema(MovieBaseSchema):
     pass
 
 
-class MovieResponse(MovieBaseSchema):
+class MovieResponseSchema(MovieBaseSchema):
     id: int
 
     model_config = {
