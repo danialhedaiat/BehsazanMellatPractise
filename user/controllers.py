@@ -12,13 +12,13 @@ router = APIRouter(tags=["User"], prefix="/users")
 
 
 @router.get("/", response_model=List[UserResponseSchema])
-async def retrive_user_list(db: Session = Depends(get_db), current_user: UserModel = Depends(get_current_user)):
+async def retrieve_user_list(db: Session = Depends(get_db), current_user: UserModel = Depends(get_current_user)):
     users = db.query(UserModel).all()
     return users
 
 
 @router.get("/{user_id}", response_model=UserResponseSchema)
-async def retrive_user_detail(user_id: int, db: Session = Depends(get_db)):
+async def retrieve_user_detail(user_id: int, db: Session = Depends(get_db)):
     result = db.query(UserModel).filter_by(id=user_id).first()
     if not result:
         raise HTTPException(status_code=404, detail="User not found")
