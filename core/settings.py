@@ -8,6 +8,7 @@ ENV_PATH = BASE_DIR / ".env"
 
 class Settings(BaseSettings):
     DATABASE_URL: str
+    ALEMBIC_DATABASE_URL: str
 
     model_config = SettingsConfigDict(env_file=ENV_PATH)
 
