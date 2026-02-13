@@ -1,5 +1,5 @@
 from datetime import datetime
-from pydantic import BaseModel, EmailStr, Field
+from pydantic import BaseModel, EmailStr, Field, field_validator
 
 
 class UserBaseSchema(BaseModel):
@@ -11,9 +11,13 @@ class UserBaseSchema(BaseModel):
 
 
 class UserCreateSchema(UserBaseSchema):
-    pass
     password_confirm: str = Field(..., max_length=100)
 
+    @field_validator("password_confirm")
+    def check_password_match(cls, password_confirm, validation):
+        if not password_confirm == validation.data.get("password"):
+            raise ValueError({"password":"password and password confirm are not equal!"},)
+        return password_confirm
 
 
 class UserUpdateSchema(BaseModel):
