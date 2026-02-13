@@ -37,3 +37,7 @@ class UserResponseSchema(UserBaseSchema):
     model_config = {
         "from_attributes": True
     }
+
+class UserLoginSchema(BaseModel):
+    email: str = Field(..., max_length=100)
+    password: str = Field(..., max_length=100)
