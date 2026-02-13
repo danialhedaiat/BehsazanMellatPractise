@@ -4,6 +4,7 @@ from fastapi import FastAPI
 
 from movie.controller import router as movie_router
 from core.controller import router as core_router
+from user.controllers import router as user_router
 
 
 @asynccontextmanager
@@ -27,3 +28,4 @@ app = FastAPI(
 
 app.include_router(core_router)
 app.include_router(movie_router)
+app.include_router(user_router)
