@@ -5,12 +5,15 @@ from pydantic import BaseModel, EmailStr, Field
 class UserBaseSchema(BaseModel):
     first_name: str = Field(..., max_length=100)
     last_name: str = Field(..., max_length=100)
+    password: str = Field(..., max_length=100)
     phone_number: str = Field(..., max_length=15)
     email: EmailStr
 
 
 class UserCreateSchema(UserBaseSchema):
     pass
+    password_confirm: str = Field(..., max_length=100)
+
 
 
 class UserUpdateSchema(BaseModel):
