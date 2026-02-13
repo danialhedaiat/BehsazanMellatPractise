@@ -1,11 +1,11 @@
 from typing import List
 
-from fastapi import APIRouter, Depends, Request, HTTPException
+from fastapi import APIRouter, Depends, Request, HTTPException, status
 from sqlalchemy.orm import Session
 
 from core.database import get_db
 from user.models import UserModel
-from user.schemas import UserResponseSchema, UserCreateSchema, UserUpdateSchema
+from user.schemas import UserResponseSchema, UserCreateSchema, UserUpdateSchema, UserLoginSchema
 
 router = APIRouter(tags=["User"], prefix="/users")
 
@@ -63,3 +63,13 @@ async def delete_user(user_id: int, db: Session = Depends(get_db)):
 
     db.delete(user)
     db.commit()
+
+
+@router.post("/login")
+async def login_user(request_login: UserLoginSchema, db: Session = Depends(get_db)):
+    user = db.query(UserModel).filter_by(email=request_login.email).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="email or password is not correct")
+
+    if not user.verify_password(request_login.password):
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="email or password is not correct")
