@@ -1,3 +1,5 @@
 fastapi[all]>0.128,<0.129
 alembic>1.18,<1.19
 pydantic>2.12,<2.13
+passlib[bcrypt]>1.7, <1.8
+python-jose[cryptography]==3.5
