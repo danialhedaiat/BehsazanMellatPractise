@@ -12,8 +12,8 @@ router = APIRouter(tags=["User"], prefix="/users")
 
 @router.get("/", response_model=List[UserResponseSchema])
 async def retrive_user_list(db: Session = Depends(get_db)):
-    result = db.query(UserModel).all()
-    return result
+    users = db.query(UserModel).all()
+    return users
 
 
 @router.get("/{user_id}", response_model=UserResponseSchema)
