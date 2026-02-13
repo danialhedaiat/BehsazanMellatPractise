@@ -65,11 +65,15 @@ async def delete_user(user_id: int, db: Session = Depends(get_db)):
     db.commit()
 
 
-@router.post("/login")
-async def login_user(request_login: UserLoginSchema, db: Session = Depends(get_db)):
+@router.post("/token")
+async def get_token(request_login: UserLoginSchema, db: Session = Depends(get_db)):
     user = db.query(UserModel).filter_by(email=request_login.email).first()
-    if not user:
-        raise HTTPException(status_code=404, detail="email or password is not correct")
 
-    if not user.verify_password(request_login.password):
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="email or password is not correct")
+    if not user or not user.verify_password(request_login.password):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid email or password"
+        )
+
+    access_token = create_access_token({"user_id": str(user.id)})
+    return {"access_token": access_token, "token_type": "bearer"}
